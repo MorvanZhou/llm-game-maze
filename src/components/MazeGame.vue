@@ -8,11 +8,11 @@
       
       <div class="config-controls">
         <div class="size-control">
-          <label>Cell Size: {{ cellSize }}px</label>
+          <label>Preferred Cell Size: {{ preferredCellSize }}px (Actual: {{ cellSize }}px)</label>
           <input 
             type="range" 
-            :value="cellSize"
-            min="10" 
+            :value="preferredCellSize"
+            min="1" 
             max="30" 
             @input="e => setCellSize(Number((e.target as HTMLInputElement).value))"
           >
@@ -60,12 +60,14 @@
       <button v-if="level * 2 + 3 <= 51" @click="handleNextLevel">Next Level</button>
       <p v-else>You've completed all levels!</p>
     </div>
+    <MobileControls @move="handleMove" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted } from 'vue'
 import { useMaze } from '../hooks/useMaze'
+import MobileControls from './MobileControls.vue'
 import '../assets/styles/maze.css'
 
 const {
@@ -80,14 +82,20 @@ const {
   setCellSize,
   initialSize,
   setInitialSize,
+  preferredCellSize,
+  adjustCellSize,
 } = useMaze()
+
+const handleMove = (direction: 'up' | 'down' | 'left' | 'right') => {
+  movePlayer(direction)
+}
 
 const handleKeydown = (e: KeyboardEvent) => {
   switch (e.key) {
-    case 'ArrowUp': movePlayer('up'); break
-    case 'ArrowDown': movePlayer('down'); break
-    case 'ArrowLeft': movePlayer('left'); break
-    case 'ArrowRight': movePlayer('right'); break
+    case 'ArrowUp': handleMove('up'); break
+    case 'ArrowDown': handleMove('down'); break
+    case 'ArrowLeft': handleMove('left'); break
+    case 'ArrowRight': handleMove('right'); break
   }
 }
 
@@ -95,13 +103,20 @@ const handleNextLevel = () => {
   nextLevel()
 }
 
+// 添加窗口大小变化监听
+const handleResize = () => {
+  adjustCellSize()
+}
+
 onMounted(() => {
   generateMaze()
   window.addEventListener('keydown', handleKeydown)
+  window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
@@ -176,12 +191,6 @@ onUnmounted(() => {
 
 .game-level:hover {
   transform: translateY(-2px);
-}
-
-.game-level h2 {
-  color: #2c3e50;
-  font-size: 24px;
-  margin: 0;
 }
 
 .config-controls {
@@ -293,6 +302,19 @@ button:hover {
   
   .config-controls {
     min-width: 100%;
+  }
+}
+
+/* 添加移动设备的样式调整 */
+@media (max-width: 768px) {
+  .maze {
+    margin-bottom: 160px; /* 为移动控制按钮留出空间 */
+  }
+  
+  .victory-modal {
+    bottom: 200px;
+    top: auto;
+    transform: translateX(-50%);
   }
 }
 </style>

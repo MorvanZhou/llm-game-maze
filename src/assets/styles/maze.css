@@ -180,18 +180,76 @@ button:hover {
 }
 
 /* Responsive styles */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .maze-game {
+    padding-bottom: 140px !important;
+  }
+
+  .game-info {
+    margin: 0 !important;
+    padding: 3px !important;
+    font-size: 0.85em !important;
+  }
+
   .info-container {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 5px !important;
+    padding: 2px !important;
   }
-  
-  .game-info {
-    padding: 10px;
+
+  .game-level {
+    min-width: 80px !important;
+    padding: 5px !important;
   }
-  
+
+  .game-level h2 {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+
+  .game-level p {
+    font-size: 11px;
+    margin: 2px 0;
+  }
+
   .config-controls {
-    min-width: 100%;
+    min-width: 200px !important;
+    padding: 5px !important;
+  }
+
+  .size-control {
+    padding: 2px 0 !important;
+  }
+
+  .size-control label {
+    font-size: 12px;
+    margin: 0 5px 0 0;
+  }
+
+  .size-control input[type="range"] {
+    width: 120px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-info {
+    padding: 2px;
+  }
+
+  .game-level h2 {
+    font-size: 14px;
+  }
+
+  .game-level p {
+    font-size: 10px;
+  }
+
+  .config-controls {
+    min-width: 180px;
+  }
+
+  .size-control input[type="range"] {
+    width: 100px;
   }
 }

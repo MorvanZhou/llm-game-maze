@@ -17,14 +17,38 @@ export function useMaze() {
   const maze = ref<Cell[][]>([])
   const playerPosition = ref<{ x: number; y: number }>({ x: 1, y: 1 })
   const hasWon = ref(false)
+  const preferredCellSize = ref(30) // 存储用户期望的单元格大小
 
   const getCurrentSize = () => {
     const size = initialSize.value + (level.value - 1) * 2
     return Math.min(51, size) // 限制最大尺寸为 51
   }
 
+  const calculateIdealCellSize = (windowWidth: number, mazeSize: number) => {
+    // 留出边距和滚动条空间
+    const availableWidth = windowWidth - 40
+    // 计算理想单元格大小
+    const idealSize = Math.floor(availableWidth / mazeSize)
+    // 限制最小和最大值
+    return Math.min(Math.max(idealSize, 1), preferredCellSize.value)  // 修改最小值为 1
+  }
+
+  const setCellSize = (size: number) => {
+    preferredCellSize.value = Math.max(1, Math.min(30, size))  // 修改最小值为 1
+    const currentSize = getCurrentSize()
+    const windowWidth = window.innerWidth
+    cellSize.value = calculateIdealCellSize(windowWidth, currentSize)
+  }
+
+  const adjustCellSize = () => {
+    const currentSize = getCurrentSize()
+    const windowWidth = window.innerWidth
+    cellSize.value = calculateIdealCellSize(windowWidth, currentSize)
+  }
+
   const generateMaze = () => {
     const size = getCurrentSize()
+    adjustCellSize() // 在生成新迷宫时调整单元格大小
     // Initialize maze with walls
     const newMaze: Cell[][] = Array(size).fill(null).map((_, y) =>
       Array(size).fill(null).map((_, x) => ({
@@ -110,10 +134,6 @@ export function useMaze() {
     }
   }
 
-  const setCellSize = (size: number) => {
-    cellSize.value = Math.max(10, Math.min(30, size)) // 限制大小在 20-50 之间
-  }
-
   const setInitialSize = (size: number) => {
     initialSize.value = Math.max(5, Math.min(51, size))
     if (level.value === 1) {
@@ -133,5 +153,7 @@ export function useMaze() {
     setCellSize,
     initialSize,
     setInitialSize,
+    preferredCellSize,
+    adjustCellSize,
   }
 }

@@ -4,6 +4,13 @@
   padding: 5px;
 }
 
-.home h1 {
+.home .header {
   margin: 0 0 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home .header img {
+    margin-right: 15px;
 }
