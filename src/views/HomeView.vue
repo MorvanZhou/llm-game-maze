@@ -10,6 +10,6 @@
 
 <script lang="ts" setup>
 import MazeGame from '@/components/MazeGame.vue'
-import '../assets/styles/home.css'
-import LogoIcon from '../assets/logo.jpeg'
+import '@/assets/styles/home.css'
+import LogoIcon from '@/assets/logo.jpeg'
 </script>

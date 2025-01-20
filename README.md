@@ -71,13 +71,4 @@ npm run build
 
 ## 📜 许可证
 
-本项目采用 [MIT License](./LICENSE) 许可证。
-
-你可以自由地：
-- 使用本项目的代码
-- 修改本项目的代码
-- 将本项目用于商业用途
-
-唯一的要求是保留原始许可证和版权声明。
-
-详细信息请查看 [LICENSE](./LICENSE) 文件。
+[MIT License](./LICENSE)

@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { soundManager } from '../utils/sound'
+import { soundManager } from '@/utils/sound'
 
 export type Cell = {
   x: number

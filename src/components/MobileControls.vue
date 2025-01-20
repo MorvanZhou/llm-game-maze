@@ -66,37 +66,40 @@ onMounted(() => {
 <style scoped>
 .mobile-controls {
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 15px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.4);  /* 更透明的背景 */
+  padding: 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);  /* 增加模糊效果 */
   box-shadow: 
     0 10px 20px rgba(0,0,0,0.1),
     0 6px 6px rgba(0,0,0,0.1),
-    inset 0 -2px 5px rgba(0,0,0,0.1);
+    inset 0 0 15px rgba(255, 255, 255, 0.3);  /* 添加内部光晕 */
 }
 
 .control-row {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 15px;
 }
 
 .control-btn {
   touch-action: manipulation;
-  width: 65px;
-  height: 65px;
+  width: 80px;
+  height: 80px;
   border: none;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #4ad295, #42b883);
+  border-radius: 8px;
+  background: linear-gradient(145deg, 
+    rgba(74, 210, 149, 0.8),  /* 半透明的按钮颜色 */
+    rgba(66, 184, 131, 0.8)
+  );
   color: white;
-  font-size: 24px;
+  font-size: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,45 +107,58 @@ onMounted(() => {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition: all 0.2s ease;
+  backdrop-filter: blur(4px);  /* 按钮自身也添加模糊效果 */
   box-shadow: 
-    0 4px 6px rgba(66, 184, 131, 0.2),
+    0 4px 8px rgba(66, 184, 131, 0.2),
     inset 0 -2px 5px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);  /* 添加微妙的边框 */
 }
 
 .control-btn:active {
-  transform: scale(0.92);
-  background: linear-gradient(145deg, #42b883, #3aa876);
+  transform: translateY(2px);
+  background: linear-gradient(145deg, 
+    rgba(66, 184, 131, 0.9),  /* 按下时稍微不那么透明 */
+    rgba(58, 168, 118, 0.9)
+  );
   box-shadow: 
-    0 2px 3px rgba(66, 184, 131, 0.2),
+    0 2px 4px rgba(66, 184, 131, 0.2),
     inset 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .control-btn svg {
-  width: 32px;
-  height: 32px;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+  opacity: 0.9;  /* 图标也稍微透明 */
 }
 
-/* 添加一些活力的颜色变化 */
-.up { background: linear-gradient(145deg, #4ad295, #42b883); }
-.down { background: linear-gradient(145deg, #4ad295, #42b883); }
-.left { background: linear-gradient(145deg, #4ad295, #42b883); }
-.right { background: linear-gradient(145deg, #4ad295, #42b883); }
+/* 移除不必要的渐变重复 */
+.up, .down, .left, .right {
+  background: linear-gradient(145deg, 
+    rgba(74, 210, 149, 0.8),
+    rgba(66, 184, 131, 0.8)
+  );
+}
 
+/* 适配较小屏幕 */
 @media (max-width: 480px) {
   .control-btn {
-    width: 55px;
-    height: 55px;
+    width: 70px;
+    height: 70px;
   }
   
   .control-btn svg {
-    width: 28px;
-    height: 28px;
+    width: 35px;
+    height: 35px;
   }
   
   .mobile-controls {
-    padding: 12px;
-    gap: 10px;
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .control-row {
+    gap: 12px;
   }
 }
 </style>

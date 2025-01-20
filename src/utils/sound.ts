@@ -1,3 +1,4 @@
+
 class SoundManager {
   private sounds: { [key: string]: HTMLAudioElement } = {};
 
