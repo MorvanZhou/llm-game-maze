@@ -2,13 +2,13 @@
   <div class="game-info">
     <div class="info-container">
       <div class="game-level">
-        <h2>Level {{ level }}</h2>
-        <p>Size: {{ maze[0]?.length }}x{{ maze.length }}</p>
+        <h2>第 {{ level }} 关</h2>
+        <p>地图大小: {{ maze[0]?.length }}x{{ maze.length }}</p>
       </div>
       
       <div class="config-controls">
         <div class="size-control">
-          <label>Preferred Cell Size: {{ preferredCellSize }}px (Actual: {{ cellSize }}px)</label>
+          <label>期望格子大小: {{ preferredCellSize }}像素 (实际: {{ cellSize }}像素)</label>
           <input 
             type="range" 
             :value="preferredCellSize"
@@ -19,7 +19,7 @@
         </div>
 
         <div class="size-control" v-if="level === 1">
-          <label>Initial Map Size: {{ initialSize }}x{{ initialSize }}</label>
+          <label>初始地图大小: {{ initialSize }}x{{ initialSize }}</label>
           <input 
             type="range" 
             :value="initialSize"
@@ -55,10 +55,10 @@
     </div>
 
     <div v-if="hasWon" class="victory-modal">
-      <h2>Congratulations! 🎉</h2>
-      <p>You completed Level {{ level }}!</p>
-      <button v-if="level * 2 + 3 <= 51" @click="handleNextLevel">Next Level</button>
-      <p v-else>You've completed all levels!</p>
+      <h2>恭喜通关！ 🎉</h2>
+      <p>你完成了第 {{ level }} 关！</p>
+      <button v-if="level * 2 + 3 <= 51" @click="handleNextLevel">进入下一关</button>
+      <p v-else>恭喜你完成了所有关卡！</p>
     </div>
     <MobileControls @move="handleMove" />
   </div>
@@ -91,6 +91,11 @@ const handleMove = (direction: 'up' | 'down' | 'left' | 'right') => {
 }
 
 const handleKeydown = (e: KeyboardEvent) => {
+  // 阻止方向键的默认滚动行为
+  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+    e.preventDefault()
+  }
+  
   switch (e.key) {
     case 'ArrowUp': handleMove('up'); break
     case 'ArrowDown': handleMove('down'); break
@@ -312,9 +317,9 @@ button:hover {
   }
   
   .victory-modal {
-    bottom: 200px;
-    top: auto;
+    top: 20%;
     transform: translateX(-50%);
+    width: 90%;
   }
 }
 </style>

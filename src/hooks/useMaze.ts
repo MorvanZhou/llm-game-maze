@@ -48,7 +48,8 @@ export function useMaze() {
 
   const generateMaze = () => {
     const size = getCurrentSize()
-    adjustCellSize() // 在生成新迷宫时调整单元格大小
+    adjustCellSize()
+    
     // Initialize maze with walls
     const newMaze: Cell[][] = Array(size).fill(null).map((_, y) =>
       Array(size).fill(null).map((_, x) => ({
@@ -58,33 +59,55 @@ export function useMaze() {
       }))
     )
 
-    const carve = (x: number, y: number) => {
-      newMaze[y][x].isWall = false
+    // Backtracking algorithm
+    const stack: [number, number][] = []
+    const visited = new Set<string>()
 
-      const directions = [
-        [0, -2], // up
-        [2, 0],  // right
-        [0, 2],  // down
-        [-2, 0], // left
-      ].sort(() => Math.random() - 0.5)
+    const isValidCell = (x: number, y: number) => {
+      return x > 0 && x < size - 1 && y > 0 && y < size - 1
+    }
 
-      for (const [dx, dy] of directions) {
-        const newX = x + dx
-        const newY = y + dy
+    const getUnvisitedNeighbors = (x: number, y: number) => {
+      const neighbors: [number, number][] = [
+        [x, y - 2], // up
+        [x + 2, y], // right
+        [x, y + 2], // down
+        [x - 2, y], // left
+      ]
+      return neighbors.filter(([nx, ny]) => 
+        isValidCell(nx, ny) && !visited.has(`${nx},${ny}`)
+      )
+    }
 
-        if (
-          newX > 0 && newX < size - 1 &&
-          newY > 0 && newY < size - 1 &&
-          newMaze[newY][newX].isWall
-        ) {
-          newMaze[y + dy/2][x + dx/2].isWall = false
-          carve(newX, newY)
+    const backtrackGenerate = (startX: number, startY: number) => {
+      visited.add(`${startX},${startY}`)
+      newMaze[startY][startX].isWall = false
+      stack.push([startX, startY])
+
+      while (stack.length > 0) {
+        const [currentX, currentY] = stack[stack.length - 1]
+        const neighbors = getUnvisitedNeighbors(currentX, currentY)
+
+        if (neighbors.length === 0) {
+          stack.pop()
+          continue
         }
+
+        // Randomly choose next cell
+        const [nextX, nextY] = neighbors[Math.floor(Math.random() * neighbors.length)]
+        const wallX = (currentX + nextX) >> 1
+        const wallY = (currentY + nextY) >> 1
+
+        // Carve path
+        newMaze[wallY][wallX].isWall = false
+        newMaze[nextY][nextX].isWall = false
+        visited.add(`${nextX},${nextY}`)
+        stack.push([nextX, nextY])
       }
     }
 
-    // Start carving from position (1,1)
-    carve(1, 1)
+    // Start generation from (1,1)
+    backtrackGenerate(1, 1)
 
     // Set start and end points
     newMaze[1][1].isStart = true

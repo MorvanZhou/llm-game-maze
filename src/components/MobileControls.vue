@@ -66,7 +66,7 @@ onMounted(() => {
 <style scoped>
 .mobile-controls {
   position: fixed;
-  bottom: 30px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -143,8 +143,8 @@ onMounted(() => {
 /* 适配较小屏幕 */
 @media (max-width: 480px) {
   .control-btn {
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 80px;
   }
   
   .control-btn svg {

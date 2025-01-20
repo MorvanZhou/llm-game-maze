@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <div class="header">
-      <img :src="LogoIcon" alt="Site Logo" class="logo" />
-      <h1>Maze Game</h1>
+      <img :src="LogoIcon" alt="游戏图标" class="logo" />
+      <h1>迷宫探险</h1>
     </div>
     <MazeGame />
   </div>
