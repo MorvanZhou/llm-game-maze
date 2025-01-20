@@ -4,7 +4,7 @@
 
 这是一个利用 LLM 创建的项目，画了 2 小时，中间有少量人工代码，其他都是大模型完成的。
 
-在线演示 [https://metools.online/maze/](https://metools.online/maze/)
+在线演示 [https://metool.online/maze/](https://metool.online/maze/)
 
 ![Game Preview](./public/demo.png)
 
